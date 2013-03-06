@@ -1,0 +1,10 @@
+= form_for @user do |f|
+  = f.label :first
+  = f.text_field :first
+  = f.label :last
+  = f.text_field :last
+  = f.label :address
+  = f.text_field :address
+  = f.label :image
+  = f.text_field :image
+  = f.submit nil, :class => 'button'

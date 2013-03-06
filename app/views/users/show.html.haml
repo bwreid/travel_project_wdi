@@ -1,0 +1,17 @@
+.sub_splash
+  .row
+    .large-12.columns
+      %h1
+        = @user.first.capitalize
+        = @user.last.capitalize
+
+.row
+  .large-8.columns
+    = render :partial => 'form'
+  .large-4.columns
+    #map_canvas
+    %script
+      var tasks = [];
+      = "display_map(#{@user.lat}, #{@user.long}, 13);"
+      = "add_marker(#{@user.lat}, #{@user.long}, 'Home')"
+

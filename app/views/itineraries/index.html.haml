@@ -1,0 +1,32 @@
+.sub_splash
+  .row
+    .large-12.columns
+      %h1 My Itineraries
+
+.row
+  .large-6.columns
+    .itinerary_list
+      = link_to("Create New", new_itinerary_path, :class => 'button expand' )
+      - @itineraries.each do |itin|
+        .one_itinerary
+          %h3= itin.name
+          %ul.itinerary_destinations
+            - itin.destinations.each do |destination|
+              %li
+                = destination.address
+                %ul
+                  %li.hide= destination.lat
+                  %li.hide= destination.long
+          %span{ :class => 'label' }= itin.start
+          %span{ :class => 'label right' }= itin.end
+  .large-6.columns
+    #map_canvas
+    %script
+      var home_marker= [];
+      = "display_map(#{@auth.lat}, #{@auth.long}, 2);"
+      = "add_marker(#{@auth.lat}, #{@auth.long}, 'Home')"
+      = "home_marker[0] = #{@auth.lat}"
+      = "home_marker[1] = #{@auth.long}"
+      = "home_marker[2] = 'Home'"
+
+

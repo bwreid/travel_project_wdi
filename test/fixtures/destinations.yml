@@ -1,0 +1,32 @@
+# == Schema Information
+#
+# Table name: destinations
+#
+#  id           :integer          not null, primary key
+#  itinerary_id :integer
+#  address      :string(255)
+#  lat          :float
+#  long         :float
+#  start        :date
+#  end          :date
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  itinerary_id: 1
+  address: MyString
+  lat: 1.5
+  long: 1.5
+  start: 2013-03-06
+  end: 2013-03-06
+
+two:
+  itinerary_id: 1
+  address: MyString
+  lat: 1.5
+  long: 1.5
+  start: 2013-03-06
+  end: 2013-03-06

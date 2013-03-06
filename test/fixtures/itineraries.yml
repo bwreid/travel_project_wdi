@@ -1,0 +1,26 @@
+# == Schema Information
+#
+# Table name: itineraries
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  start      :date
+#  end        :date
+#  user_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  start: 2013-03-06
+  end: 2013-03-06
+  user_id: 1
+
+two:
+  name: MyString
+  start: 2013-03-06
+  end: 2013-03-06
+  user_id: 1
