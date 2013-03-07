@@ -3,8 +3,7 @@ Travelapp::Application.routes.draw do
   post '/login' => 'session#create'
   delete '/login' => 'session#destroy'
 
-  resources :destinations
-  resources :itineraries
+  resources :itineraries, :except => [:new, :edit]
   resources :users, :except => [:index, :destroy]
   root :to => 'welcome#index'
 end

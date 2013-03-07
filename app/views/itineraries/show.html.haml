@@ -1,0 +1,14 @@
+.sub_splash
+  .row
+    .large-12.columns
+      %h1 New Itinerary
+
+.row
+
+
+  .large-6.columns
+    #map_canvas
+    %script
+      var home_marker= [];
+      = "display_map(#{@auth.lat}, #{@auth.long}, 2);"
+      = "add_marker(#{@auth.lat}, #{@auth.long}, 'Home')"

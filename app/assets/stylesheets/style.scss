@@ -8,8 +8,19 @@
 
 .itinerary_list {
   .one_itinerary {
-    padding: 10px 0;
-    border-bottom: 1px dotted #aaa;
+    padding: 10px;
+    h3 {
+      text-align: center;
+    }
+    .itinerary_destinations > li {
+      display: inline-block;
+      text-align: center;
+      margin: 5px 0;
+      width: 100%;
+      &:nth-child(odd) {
+        background: #efefef;
+      }
+    }
   }
 }
 

@@ -6,10 +6,33 @@
 .row
   .large-6.columns
     .itinerary_list
-      = link_to("Create New", new_itinerary_path, :class => 'button expand' )
+      = link_to("Add New Itinerary", '#', :class => 'button expand', :id => 'create_new_itinerary' )
+      .new_priority_form
+        %fieldset
+          %legend New Itinerary
+          .row
+            .large-12.columns
+              %h3 Where do you want to go?
+              = form_tag do
+                - count = 0
+                = hidden_field_tag 'itinerary_id'
+                = text_field_tag 'name', nil, :placeholder => 'Your Itinerary Name'
+                = text_field_tag 'start', nil, :placeholder => 'Your Start Date'
+                = text_field_tag 'end', nil, :placeholder => 'Your End Date'
+                .form_locations
+                  .row
+                    .small-9.columns
+                      = text_field_tag nil, nil, :placeholder => 'Location', :class => 'individual_location_field'
+                    .small-3.columns
+                      = link_to('Remove', '#', :id => 'remove_location', :class => 'button small alert disabled')
+                  = link_to('+ Location', '#', :class => 'button tiny secondary', :id => 'add_new_location')
+                %br
+                = submit_tag 'Create', :id => 'ajax_connection', :class => 'button expand success round'
+                = submit_tag 'Save', :id => 'ajax_update', :class => 'button expand success round'
+
       - @itineraries.each do |itin|
         .one_itinerary
-          %h3= itin.name
+          %h3= link_to(itin.name, itin)
           %ul.itinerary_destinations
             - itin.destinations.each do |destination|
               %li
@@ -19,6 +42,11 @@
                   %li.hide= destination.long
           %span{ :class => 'label' }= itin.start
           %span{ :class => 'label right' }= itin.end
+          %div{ :style => 'clear: both'}
+          %hr
+          = link_to("Edit", '#', :id => 'show_edit_itinerary_form')
+          = link_to("Delete", '#', :class => 'right', :id => 'delete_itinerary')
+          %hr
   .large-6.columns
     #map_canvas
     %script

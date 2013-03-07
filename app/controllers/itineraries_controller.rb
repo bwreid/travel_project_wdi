@@ -4,7 +4,7 @@ class ItinerariesController < ApplicationController
   # GET /itineraries
   # GET /itineraries.json
   def index
-    @itineraries = @auth.itineraries
+    @itineraries = @auth.itineraries.order( :start )
 
     respond_to do |format|
       format.html # index.html.erb
@@ -23,50 +23,33 @@ class ItinerariesController < ApplicationController
     end
   end
 
-  # GET /itineraries/new
-  # GET /itineraries/new.json
-  def new
-    @itinerary = Itinerary.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @itinerary }
-    end
-  end
-
-  # GET /itineraries/1/edit
-  def edit
-    @itinerary = Itinerary.find(params[:id])
-  end
-
-  # POST /itineraries
-  # POST /itineraries.json
   def create
-    @itinerary = Itinerary.new(params[:itinerary])
+    itinerary = Itinerary.new(params[:itinerary])
 
     respond_to do |format|
-      if @itinerary.save
-        format.html { redirect_to @itinerary, notice: 'Itinerary was successfully created.' }
-        format.json { render json: @itinerary, status: :created, location: @itinerary }
+      if itinerary.save
+        params[:destinations].each { |address| itinerary.destinations << Destination.create( :address => address ) }
+        @auth.itineraries << itinerary
+        format.json { render :json => [itinerary.as_json(:include => :destinations)] }
       else
-        format.html { render action: "new" }
-        format.json { render json: @itinerary.errors, status: :unprocessable_entity }
+        format.json { render json: itinerary.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   # PUT /itineraries/1
   # PUT /itineraries/1.json
   def update
-    @itinerary = Itinerary.find(params[:id])
+    itinerary = Itinerary.find(params[:id])
 
     respond_to do |format|
-      if @itinerary.update_attributes(params[:itinerary])
-        format.html { redirect_to @itinerary, notice: 'Itinerary was successfully updated.' }
-        format.json { head :no_content }
+      if itinerary.update_attributes(params[:itinerary])
+        itinerary.destinations.delete_all
+        params[:destinations].each { |address| itinerary.destinations << Destination.create( :address => address ) }
+        format.json { render :json => [itinerary.as_json(:include => :destinations)] }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @itinerary.errors, status: :unprocessable_entity }
+        format.json { render json: itinerary.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -74,12 +57,11 @@ class ItinerariesController < ApplicationController
   # DELETE /itineraries/1
   # DELETE /itineraries/1.json
   def destroy
-    @itinerary = Itinerary.find(params[:id])
-    @itinerary.destroy
-
-    respond_to do |format|
-      format.html { redirect_to itineraries_url }
-      format.json { head :no_content }
+    itinerary = Itinerary.find(params[:id])
+    itinerary.destinations.each do |x|
+      x.delete
     end
+    itinerary.destroy
+    render :nothing => true
   end
 end
