@@ -10,6 +10,16 @@ $(function() {
   $('.itinerary_list').on('click', '#show_edit_itinerary_form', show_edit_itinerary_form);
   $('.itinerary_list').on('mouseenter', '.one_itinerary', hover_markers_appear );
   $('.itinerary_list').on('mouseleave', '.one_itinerary', hover_markers_clear );
+
+
+  var offset_top = $("#map_canvas").offset().top;     // absolute
+  var position_top = $("#map_canvas").position().top; // relative to parent
+  $(window).scroll(function() {
+    if($(this).scrollTop() >= offset_top) {
+      $("#map_canvas").css("top", $(this).scrollTop() - 300);
+    }
+  });
+
 });
 
 var map;
@@ -188,7 +198,6 @@ function render_all_itineraries(msg) {
   $('.new_priority_form').after(container);
 
   clear_input_field();
-
 }
 
 function render_all_destinations(destination) {
